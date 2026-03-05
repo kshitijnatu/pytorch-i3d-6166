@@ -9,30 +9,31 @@ parser.add_argument('-load_model', type=str)
 parser.add_argument('-root', type=str)
 parser.add_argument('-gpu', type=str)
 parser.add_argument('-save_dir', type=str)
+parser.add_argument('-split', type=str)
 
 args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"]=args.gpu
 
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-from torch.optim import lr_scheduler
-from torch.autograd import Variable
+import torch # type: ignore
+import torch.nn as nn # type: ignore
+import torch.nn.functional as F # type: ignore
+import torch.optim as optim # type: ignore
+from torch.optim import lr_scheduler # type: ignore
+from torch.autograd import Variable # type: ignore
 
-import torchvision
-from torchvision import datasets, transforms
+import torchvision # type: ignore
+from torchvision import datasets, transforms # type: ignore
 import videotransforms
 
 
-import numpy as np
+import numpy as np # type: ignore
 
 from pytorch_i3d import InceptionI3d
 
 from charades_dataset_full import Charades as Dataset
 
 
-def run(max_steps=64e3, mode='rgb', root='/ssd2/charades/Charades_v1_rgb', split='charades/charades.json', batch_size=1, load_model='', save_dir=''):
+def run(max_steps=64e3, mode='', root='', split='', batch_size=1, load_model='', save_dir=''):
     # setup dataset
     test_transforms = transforms.Compose([videotransforms.CenterCrop(224)])
 
@@ -87,4 +88,4 @@ def run(max_steps=64e3, mode='rgb', root='/ssd2/charades/Charades_v1_rgb', split
 
 if __name__ == '__main__':
     # need to add argparse
-    run(mode=args.mode, root=args.root, load_model=args.load_model, save_dir=args.save_dir)
+    run(mode=args.mode, root=args.root, split=args.split, load_model=args.load_model, save_dir=args.save_dir)
